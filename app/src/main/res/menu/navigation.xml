@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/action_organicos"
         android:icon="@drawable/ic_organicos"
         android:title="@string/titulo_produtos_organicos" />
+
+    <item
+        android:id="@+id/action_reciclagem"
+        android:icon="@drawable/ic_reciclagem"
+        android:title="@string/titulo_produtos_reciclagem" />
+    <item
+        android:id="@+id/action_agrotoxico"
+        android:icon="@drawable/ic_agrotoxico"
+        android:title="Agrotoxico" />
+
 </menu>

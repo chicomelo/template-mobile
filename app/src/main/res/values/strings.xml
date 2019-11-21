@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">projeto-sustentabilidade</string>
     <string name="titulo_produtos_organicos">Produtos orgânicos</string>
+    <string name="titulo_produtos_reciclagem">Recilagem</string>
     <string name="organico_erro_webservice">Erro ao carregar webservice.</string>
 </resources>

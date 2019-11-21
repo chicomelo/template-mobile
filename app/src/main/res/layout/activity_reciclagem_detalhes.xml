@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- 1. DECLARAÇÃO DAS VARIÁVEIS -->
+    <data>
+
+        <variable
+            name="reciclagem"
+            type="br.utp.sustentabilidade.models.Reciclagem" />
+    </data>
+
+    <!-- DEFINIÇÃO DO LAYOUT -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/reciclagem_txt_titulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{reciclagem.titulo}"/>
+
+            <TextView
+                android:id="@+id/reciclagem_txt_descricao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{reciclagem.descricao}"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/reciclagem_img_foto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/reciclagem_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>

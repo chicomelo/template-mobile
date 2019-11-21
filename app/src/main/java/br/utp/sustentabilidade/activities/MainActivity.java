@@ -8,15 +8,22 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 import br.utp.sustentabilidade.R;
 import br.utp.sustentabilidade.databinding.ActivityMainBinding;
+import br.utp.sustentabilidade.fragments.AgrotoxicoFragment;
 import br.utp.sustentabilidade.fragments.OrganicoFragment;
+import br.utp.sustentabilidade.fragments.ReciclagemFragment;
+import br.utp.sustentabilidade.models.Reciclagem;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding mBinding;
 
     private OrganicoFragment mFragmentoOrganico;
+    private ReciclagemFragment mFragmentoReciclagem;
+    private AgrotoxicoFragment mFragmentoAgrotoxico;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Inicializa os fragmentos
         mFragmentoOrganico = OrganicoFragment.newInstance();
+        mFragmentoReciclagem = ReciclagemFragment.newInstance();
+        mFragmentoAgrotoxico = AgrotoxicoFragment.newInstance();
 
         // Cadastra os eventos da bottom navigation
         mBinding.mainBottomNavigation.setOnNavigationItemSelectedListener(this::onSelecionarFragmento);
@@ -37,6 +46,14 @@ public class MainActivity extends AppCompatActivity {
         switch (menuItem.getItemId()) {
             case R.id.action_organicos:
                 trocarFragmentos(mFragmentoOrganico);
+                return true;
+
+            case R.id.action_reciclagem:
+                trocarFragmentos(mFragmentoReciclagem);
+                return true;
+
+            case R.id.action_agrotoxico:
+                trocarFragmentos(mFragmentoAgrotoxico);
                 return true;
         }
         return false;
