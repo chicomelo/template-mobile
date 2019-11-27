@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -23,17 +23,17 @@ import java.util.List;
 
 import br.utp.sustentabilidade.R;
 import br.utp.sustentabilidade.activities.ReciclagemDetalhesActivity;
-import br.utp.sustentabilidade.databinding.FragmentOrganicoBinding;
+import br.utp.sustentabilidade.activities.ReciclagemInsertActivity;
 import br.utp.sustentabilidade.databinding.FragmentReciclagemBinding;
-import br.utp.sustentabilidade.models.Organico;
 import br.utp.sustentabilidade.models.Reciclagem;
 import br.utp.sustentabilidade.models.RespostaJSON;
 import br.utp.sustentabilidade.network.NetworkManager;
-import br.utp.sustentabilidade.widgets.adapters.OrganicoAdapter;
 import br.utp.sustentabilidade.widgets.adapters.ReciclagemAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ReciclagemFragment extends Fragment implements ReciclagemAdapter.ReciclagemListener {
 
@@ -74,6 +74,9 @@ public class ReciclagemFragment extends Fragment implements ReciclagemAdapter.Re
 
         // Chama o Webservice
         carregarWebService(0);
+
+        FloatingActionButton fab = mBinding.fab;
+        fab.setOnClickListener(view ->  callInsert());
 
         return mBinding.getRoot();
     }
@@ -143,8 +146,6 @@ public class ReciclagemFragment extends Fragment implements ReciclagemAdapter.Re
 
     @Override
     public void onReciclagemClick(final Reciclagem reciclagem) {
-        Toast.makeText(getContext(), "Clicou no card", Toast.LENGTH_SHORT).show();
-
         Bundle bundle = new Bundle();
         bundle.putString("id", reciclagem.getId());
         bundle.putString("titulo", reciclagem.getTitulo());
@@ -155,12 +156,27 @@ public class ReciclagemFragment extends Fragment implements ReciclagemAdapter.Re
 
         Intent intent = new Intent(getContext(), ReciclagemDetalhesActivity.class);
         intent.putExtra("reciclagem", bundle);
-        startActivity(intent);
-
+        startActivityForResult(intent, 111);
     }
 
     @Override
-    public void onFotoClick(final Reciclagem reciclagem) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 111) {
+            if (resultCode == RESULT_OK) {
+                mReciclagem.removeAll(mReciclagem);
+                mBinding.reciclagemRecyclerView.getAdapter().notifyDataSetChanged();
 
+                // Exibe a progressbar
+                mBinding.organicoLoading.setVisibility(View.VISIBLE);
+
+                // Chama o Webservice
+                carregarWebService(0);
+            }
+        }
+    }
+
+    private void callInsert() {
+        Intent intent = new Intent(getContext(), ReciclagemInsertActivity.class);
+        startActivityForResult(intent, 111);
     }
 }

@@ -22,6 +22,11 @@
         </activity>
 
         <activity android:name=".activities.ReciclagemDetalhesActivity"/>
+        <activity android:name=".activities.ReciclagemInsertActivity"/>
+        <activity android:name=".activities.AgrotoxicoDetalhesActivity"/>
+        <activity android:name=".activities.AgrotoxicoInsertActivity"/>
+        <activity android:name=".activities.OrganicoDetalhesActivity"/>
+        <activity android:name=".activities.OrganicoInsertActivity"/>
 
     </application>
 

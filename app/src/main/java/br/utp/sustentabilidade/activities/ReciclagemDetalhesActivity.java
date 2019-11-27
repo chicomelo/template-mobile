@@ -1,6 +1,5 @@
 package br.utp.sustentabilidade.activities;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -9,25 +8,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.snackbar.Snackbar;
-
-import java.time.LocalDate;
-import java.util.List;
 
 import br.utp.sustentabilidade.R;
-import br.utp.sustentabilidade.databinding.ActivityMainBinding;
 import br.utp.sustentabilidade.databinding.ActivityReciclagemDetalhesBinding;
-import br.utp.sustentabilidade.fragments.AgrotoxicoFragment;
-import br.utp.sustentabilidade.fragments.OrganicoFragment;
-import br.utp.sustentabilidade.fragments.ReciclagemFragment;
 import br.utp.sustentabilidade.models.Reciclagem;
 import br.utp.sustentabilidade.models.RespostaJSON;
 import br.utp.sustentabilidade.network.NetworkManager;
@@ -77,6 +64,28 @@ public class ReciclagemDetalhesActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_editar:
+                mBinding.btnSave.setVisibility(View.VISIBLE);
+
+                mBinding.reciclagemTxtTitulo.setClickable(true);
+                mBinding.reciclagemTxtTitulo.setCursorVisible(true);
+                mBinding.reciclagemTxtTitulo.setFocusable(true);
+                mBinding.reciclagemTxtTitulo.setFocusableInTouchMode(true);
+
+                mBinding.reciclagemTxtDescricao.setClickable(true);
+                mBinding.reciclagemTxtDescricao.setCursorVisible(true);
+                mBinding.reciclagemTxtDescricao.setFocusable(true);
+                mBinding.reciclagemTxtDescricao.setFocusableInTouchMode(true);
+
+                mBinding.reciclagemTxtFotoUrl.setVisibility(View.VISIBLE);
+                mBinding.reciclagemTxtFotoUrl.setClickable(true);
+                mBinding.reciclagemTxtFotoUrl.setCursorVisible(true);
+                mBinding.reciclagemTxtFotoUrl.setFocusable(true);
+                mBinding.reciclagemTxtFotoUrl.setFocusableInTouchMode(true);
+
+                mBinding.reciclagemImgFoto.setVisibility(View.GONE);
+
+                return true;
             case R.id.action_exluir:
                 Call<RespostaJSON<Reciclagem>> call = NetworkManager.service().removerReciclagem(reciclagem.getId());
                 call.enqueue(new Callback<RespostaJSON<Reciclagem>>() {
@@ -87,10 +96,10 @@ public class ReciclagemDetalhesActivity extends AppCompatActivity {
                         Log.d("TAG", "onResponse: " + resposta);
                         Log.d("TAG", "onResponse: " + resposta.getStatus());
                         if (resposta != null && resposta.getStatus() == 0) {
-                            Toast.makeText(ReciclagemDetalhesActivity.this, "Excluido com sucesso!", Toast.LENGTH_SHORT).show();
+                            setResult(RESULT_OK);
                             finish();
                         } else {
-
+                            Toast.makeText(ReciclagemDetalhesActivity.this, "Problema ao tentar excluir!", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -107,4 +116,36 @@ public class ReciclagemDetalhesActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void saveAction(View v) {
+        if (mBinding.reciclagemTxtTitulo.getText().toString().length() > 0 && mBinding.reciclagemTxtDescricao.getText().toString().length() > 0) {
+            reciclagem.setTitulo(mBinding.reciclagemTxtTitulo.getText().toString());
+            reciclagem.setDescricao(mBinding.reciclagemTxtDescricao.getText().toString());
+            reciclagem.setFoto(mBinding.reciclagemTxtFotoUrl.getText().toString());
+
+            Call<RespostaJSON<Reciclagem>> call = NetworkManager.service().atualizarReciclagem(reciclagem);
+            call.enqueue(new Callback<RespostaJSON<Reciclagem>>() {
+
+                @Override
+                public void onResponse(final Call<RespostaJSON<Reciclagem>> call, final Response<RespostaJSON<Reciclagem>> response) {
+                    RespostaJSON<Reciclagem> resposta = response.body();
+                    Log.d("TAG", "onResponse: " + resposta);
+                    Log.d("TAG", "onResponse: " + resposta.getStatus());
+                    if (resposta != null && resposta.getStatus() == 0) {
+                        setResult(RESULT_OK);
+                        finish();
+                    } else {
+                        Toast.makeText(ReciclagemDetalhesActivity.this, "Problema ao tentar salvar!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(final Call<RespostaJSON<Reciclagem>> call, final Throwable t) {
+                    Log.e("TAG", "onFailure: ", t);
+                }
+            });
+        }
+        else {
+            Toast.makeText(ReciclagemDetalhesActivity.this, "Preencha as duas informações!", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

@@ -14,7 +14,6 @@ import br.utp.sustentabilidade.databinding.ActivityMainBinding;
 import br.utp.sustentabilidade.fragments.AgrotoxicoFragment;
 import br.utp.sustentabilidade.fragments.OrganicoFragment;
 import br.utp.sustentabilidade.fragments.ReciclagemFragment;
-import br.utp.sustentabilidade.models.Reciclagem;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,6 +1,13 @@
 <resources>
-    <string name="app_name">projeto-sustentabilidade</string>
-    <string name="titulo_produtos_organicos">Produtos orgânicos</string>
+    <string name="app_name">Sustentabilidade</string>
+    <string name="titulo_produtos_organicos">Orgânicos</string>
     <string name="titulo_produtos_reciclagem">Recilagem</string>
+    <string name="titulo_produtos_agrotoxico">Agrotoxico</string>
     <string name="organico_erro_webservice">Erro ao carregar webservice.</string>
+    <string name="titulo_hint">Título</string>
+    <string name="desc_hint">Descrição</string>
+    <string name="local_hint">Local</string>
+    <string name="local_url_hint">Url do local</string>
+    <string name="foto_url_hint">Url da foto</string>
+    <string name="save">Salvar</string>
 </resources>

@@ -13,6 +13,6 @@
     <item
         android:id="@+id/action_agrotoxico"
         android:icon="@drawable/ic_agrotoxico"
-        android:title="Agrotoxico" />
+        android:title="@string/titulo_produtos_agrotoxico" />
 
 </menu>

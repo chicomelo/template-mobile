@@ -1,12 +1,14 @@
 package br.utp.sustentabilidade.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import br.utp.sustentabilidade.R;
+import br.utp.sustentabilidade.activities.OrganicoDetalhesActivity;
+import br.utp.sustentabilidade.activities.OrganicoInsertActivity;
 import br.utp.sustentabilidade.databinding.FragmentOrganicoBinding;
 import br.utp.sustentabilidade.models.Organico;
 import br.utp.sustentabilidade.models.RespostaJSON;
@@ -28,7 +32,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrganicoFragment extends Fragment {
+import static android.app.Activity.RESULT_OK;
+
+public class OrganicoFragment extends Fragment implements OrganicoAdapter.OrganicoListener {
 
     private FragmentOrganicoBinding mBinding;
     private List<Organico> mOrganicos;
@@ -56,7 +62,7 @@ public class OrganicoFragment extends Fragment {
         mOrganicos = new ArrayList<>();
 
         // Inicializa o recycler view
-        OrganicoAdapter adapter = new OrganicoAdapter(mOrganicos);
+        OrganicoAdapter adapter = new OrganicoAdapter(mOrganicos, this);
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
 
         mBinding.organicoRecyclerView.setAdapter(adapter);
@@ -67,6 +73,9 @@ public class OrganicoFragment extends Fragment {
 
         // Chama o Webservice
         carregarWebService(0);
+
+        FloatingActionButton fab = mBinding.fab;
+        fab.setOnClickListener(view ->  callInsert());
 
         return mBinding.getRoot();
     }
@@ -134,4 +143,41 @@ public class OrganicoFragment extends Fragment {
                 .show();
     }
 
+    @Override
+    public void onOrganicoClick(final Organico organico) {
+        Bundle bundle = new Bundle();
+        bundle.putString("id", organico.getId());
+        bundle.putString("titulo", organico.getTitulo());
+        bundle.putString("descricao", organico.getDescricao());
+        bundle.putString("local", organico.getLocal());
+        bundle.putString("local_url", organico.getLocalUrl());
+        bundle.putString("img", organico.getFoto());
+
+        Log.d("Fragmento", "onOrganicoClick: " + organico.getId());
+
+        Intent intent = new Intent(getContext(), OrganicoDetalhesActivity.class);
+        intent.putExtra("organico", bundle);
+        startActivityForResult(intent, 111);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 111) {
+            if (resultCode == RESULT_OK) {
+                mOrganicos.removeAll(mOrganicos);
+                mBinding.organicoRecyclerView.getAdapter().notifyDataSetChanged();
+
+                // Exibe a progressbar
+                mBinding.organicoLoading.setVisibility(View.VISIBLE);
+
+                // Chama o Webservice
+                carregarWebService(0);
+            }
+        }
+    }
+
+    private void callInsert() {
+        Intent intent = new Intent(getContext(), OrganicoInsertActivity.class);
+        startActivityForResult(intent, 111);
+    }
 }

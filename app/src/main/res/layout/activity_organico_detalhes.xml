@@ -8,8 +8,8 @@
     <data>
 
         <variable
-            name="reciclagem"
-            type="br.utp.sustentabilidade.models.Reciclagem" />
+            name="organico"
+            type="br.utp.sustentabilidade.models.Organico" />
     </data>
 
     <!-- DEFINIÇÃO DO LAYOUT -->
@@ -24,10 +24,10 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/reciclagem_txt_titulo"
+                android:id="@+id/organico_txt_titulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{reciclagem.titulo}"
+                android:text="@{organico.titulo}"
                 android:hint="@string/titulo_hint"
                 android:clickable="false"
                 android:cursorVisible="false"
@@ -35,10 +35,10 @@
                 android:focusableInTouchMode="false"/>
 
             <EditText
-                android:id="@+id/reciclagem_txt_descricao"
+                android:id="@+id/organico_txt_descricao"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{reciclagem.descricao}"
+                android:text="@{organico.descricao}"
                 android:hint="@string/desc_hint"
                 android:clickable="false"
                 android:cursorVisible="false"
@@ -46,10 +46,33 @@
                 android:focusableInTouchMode="false"/>
 
             <EditText
-                android:id="@+id/reciclagem_txt_foto_url"
+                android:id="@+id/organico_txt_local"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{reciclagem.foto}"
+                android:text="@{organico.local}"
+                android:hint="@string/local_hint"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+
+            <EditText
+                android:id="@+id/organico_txt_local_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{organico.localUrl}"
+                android:hint="@string/local_url_hint"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:onClick="openURL"
+                android:focusableInTouchMode="false"/>
+
+            <EditText
+                android:id="@+id/organico_txt_foto_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{organico.foto}"
                 android:hint="@string/foto_url_hint"
                 android:clickable="false"
                 android:cursorVisible="false"
@@ -58,7 +81,7 @@
                 android:visibility="gone"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/reciclagem_img_foto"
+                android:id="@+id/organico_img_foto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 

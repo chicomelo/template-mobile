@@ -11,9 +11,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import br.utp.sustentabilidade.R;
-import br.utp.sustentabilidade.databinding.ItemOrganicoBinding;
 import br.utp.sustentabilidade.databinding.ItemReciclagemBinding;
-import br.utp.sustentabilidade.models.Organico;
 import br.utp.sustentabilidade.models.Reciclagem;
 
 public class ReciclagemAdapter extends RecyclerView.Adapter<ReciclagemAdapter.ReciclagemViewHolder> {
@@ -21,7 +19,7 @@ public class ReciclagemAdapter extends RecyclerView.Adapter<ReciclagemAdapter.Re
     private final List<Reciclagem> mReciclagem;
     private final ReciclagemListener mListener;
 
-    public ReciclagemAdapter(List<Reciclagem> reciclagems,ReciclagemListener listener) {
+    public ReciclagemAdapter(List<Reciclagem> reciclagems, ReciclagemListener listener) {
         mReciclagem = reciclagems;
         mListener = listener;
     }
@@ -46,7 +44,6 @@ public class ReciclagemAdapter extends RecyclerView.Adapter<ReciclagemAdapter.Re
 
     public interface ReciclagemListener {
         void onReciclagemClick(Reciclagem reciclagem);
-        void onFotoClick(Reciclagem reciclagem);
     }
 
     /**
@@ -71,7 +68,6 @@ public class ReciclagemAdapter extends RecyclerView.Adapter<ReciclagemAdapter.Re
                     .placeholder(R.drawable.ic_placeholder)
                     .into(mBinding.reciclagemImgFoto);
 
-            mBinding.reciclagemImgFoto.setOnClickListener(v -> mListener.onFotoClick(reciclagem));
             mBinding.reciclagemCard.setOnClickListener(v -> mListener.onReciclagemClick(reciclagem));
 
 

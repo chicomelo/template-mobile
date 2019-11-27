@@ -1,6 +1,7 @@
 package br.utp.sustentabilidade.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,25 +15,27 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.utp.sustentabilidade.R;
+import br.utp.sustentabilidade.activities.AgrotoxicoDetalhesActivity;
+import br.utp.sustentabilidade.activities.AgrotoxicoInsertActivity;
 import br.utp.sustentabilidade.databinding.FragmentAgrotoxicoBinding;
-import br.utp.sustentabilidade.databinding.FragmentReciclagemBinding;
 import br.utp.sustentabilidade.models.Agrotoxico;
-import br.utp.sustentabilidade.models.Reciclagem;
 import br.utp.sustentabilidade.models.RespostaJSON;
 import br.utp.sustentabilidade.network.NetworkManager;
 import br.utp.sustentabilidade.widgets.adapters.AgrotoxicoAdapter;
-import br.utp.sustentabilidade.widgets.adapters.ReciclagemAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AgrotoxicoFragment extends Fragment {
+import static android.app.Activity.RESULT_OK;
+
+public class AgrotoxicoFragment extends Fragment implements AgrotoxicoAdapter.AgrotoxicoListener {
 
     private FragmentAgrotoxicoBinding mBinding;
     private List<Agrotoxico> mAgrotoxico;
@@ -60,7 +63,7 @@ public class AgrotoxicoFragment extends Fragment {
         mAgrotoxico = new ArrayList<>();
 
         // Inicializa o recycler view
-        AgrotoxicoAdapter adapter = new AgrotoxicoAdapter(mAgrotoxico);
+        AgrotoxicoAdapter adapter = new AgrotoxicoAdapter(mAgrotoxico, this);
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
 
         mBinding.agrotoxicoRecyclerView.setAdapter(adapter);
@@ -71,6 +74,9 @@ public class AgrotoxicoFragment extends Fragment {
 
         // Chama o Webservice
         carregarWebService(0);
+
+        FloatingActionButton fab = mBinding.fab;
+        fab.setOnClickListener(view ->  callInsert());
 
         return mBinding.getRoot();
     }
@@ -138,4 +144,39 @@ public class AgrotoxicoFragment extends Fragment {
                 .show();
     }
 
+    @Override
+    public void onAgrotoxicoClick(final Agrotoxico agrotoxico) {
+        Bundle bundle = new Bundle();
+        bundle.putString("id", agrotoxico.getId());
+        bundle.putString("titulo", agrotoxico.getTitulo());
+        bundle.putString("descricao", agrotoxico.getDescricao());
+        bundle.putString("img", agrotoxico.getFoto());
+
+        Log.d("Fragmento", "onAgrotoxicoClick: " + agrotoxico.getId());
+
+        Intent intent = new Intent(getContext(), AgrotoxicoDetalhesActivity.class);
+        intent.putExtra("agrotoxico", bundle);
+        startActivityForResult(intent, 111);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 111) {
+            if (resultCode == RESULT_OK) {
+                mAgrotoxico.removeAll(mAgrotoxico);
+                mBinding.agrotoxicoRecyclerView.getAdapter().notifyDataSetChanged();
+
+                // Exibe a progressbar
+                mBinding.agrotoxicoLoading.setVisibility(View.VISIBLE);
+
+                // Chama o Webservice
+                carregarWebService(0);
+            }
+        }
+    }
+
+    private void callInsert() {
+        Intent intent = new Intent(getContext(), AgrotoxicoInsertActivity.class);
+        startActivityForResult(intent, 111);
+    }
 }

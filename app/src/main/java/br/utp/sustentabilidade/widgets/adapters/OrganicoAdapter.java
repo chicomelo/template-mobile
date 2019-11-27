@@ -7,15 +7,21 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
+import br.utp.sustentabilidade.R;
 import br.utp.sustentabilidade.databinding.ItemOrganicoBinding;
 import br.utp.sustentabilidade.models.Organico;
 
 public class OrganicoAdapter extends RecyclerView.Adapter<OrganicoAdapter.OrganicoViewHolder> {
 
     private final List<Organico> mOrganicos;
+    private final OrganicoListener mListener;
 
-    public OrganicoAdapter(List<Organico> organicos) {
+    public OrganicoAdapter(List<Organico> organicos, OrganicoListener listener) {
         mOrganicos = organicos;
+        mListener = listener;
     }
 
     @NonNull
@@ -36,6 +42,10 @@ public class OrganicoAdapter extends RecyclerView.Adapter<OrganicoAdapter.Organi
         return mOrganicos.size();
     }
 
+    public interface OrganicoListener {
+        void onOrganicoClick(Organico agrotoxico);
+    }
+
     /**
      * Armazena os dados da view.
      */
@@ -52,6 +62,14 @@ public class OrganicoAdapter extends RecyclerView.Adapter<OrganicoAdapter.Organi
             mBinding.setOrganico(organico);
 
             // TODO: Exibir foto
+
+            Glide.with(mBinding.organicoImgFoto.getContext())
+                    .load(organico.getFoto())
+                    .error(R.drawable.ic_placeholder)
+                    .placeholder(R.drawable.ic_placeholder)
+                    .into(mBinding.organicoImgFoto);
+
+            mBinding.organicoCard.setOnClickListener(v -> mListener.onOrganicoClick(organico));
 
             // TODO: Amarrar eventos
         }

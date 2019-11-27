@@ -11,6 +11,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.DELETE;
 import retrofit2.http.Path;
 
 public interface SustentabilidadeService {
@@ -27,8 +28,8 @@ public interface SustentabilidadeService {
     @PUT("organico")
     Call<RespostaJSON<Organico>> atualizarOrganico(@Body Organico organico);
 
-    @GET("organico/{id}")
-    Call<RespostaJSON<Organico>> removerOrganico(@Path("id") int id);
+    @DELETE("organico/{id}")
+    Call<RespostaJSON<Organico>> removerOrganico(@Path("id") String id);
 
 
     @GET("reciclagem/{id}")
@@ -43,7 +44,7 @@ public interface SustentabilidadeService {
     @PUT("reciclagem")
     Call<RespostaJSON<Reciclagem>> atualizarReciclagem(@Body Reciclagem reciclagem);
 
-    @GET("reciclagem/{id}")
+    @DELETE("reciclagem/{id}")
     Call<RespostaJSON<Reciclagem>> removerReciclagem(@Path("id") String id);
 
 
@@ -59,7 +60,7 @@ public interface SustentabilidadeService {
     @PUT("agrotoxico")
     Call<RespostaJSON<Agrotoxico>> atualizarAgrotoxico(@Body Agrotoxico agrotoxico);
 
-    @GET("agrotoxico/{id}")
-    Call<RespostaJSON<Agrotoxico>> removerAgrotoxico(@Path("id") int id);
+    @DELETE("agrotoxico/{id}")
+    Call<RespostaJSON<Agrotoxico>> removerAgrotoxico(@Path("id") String id);
 
 }

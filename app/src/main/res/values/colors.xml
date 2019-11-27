@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimaryDark">#00493F</color>
+    <color name="colorAccent">#1CE07F</color>
 
     <!--  grayscale  -->
 
     <!--  transparent  -->
 
     <!--  basic colors  -->
-    <color name="blue">#0f8bff</color>
-    <color name="green">#27D34D</color>
+    <color name="blue">#000000</color>
+    <color name="green">#333333</color>
 
 </resources>
